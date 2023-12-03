@@ -7,5 +7,6 @@ fn main() {
     day_one::part_two();
 
     // Day Two
-    day_two::echo();
+    day_two::part_one();
+    day_two::part_two();
 }

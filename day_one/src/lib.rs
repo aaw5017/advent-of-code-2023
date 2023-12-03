@@ -19,8 +19,8 @@ lazy_static! {
     ]);
 }
 
-const INPUT_PATH: &str = "day_one/data/puzzle_input.txt";
-// const INPUT_PATH: &str = "day_one/data/test_input.txt";
+const INPUT_PATH: &'static str = "day_one/data/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "day_one/data/test_input.txt";
 const PART_ONE_REGEX: &'static str = "\\d";
 const PART_TWO_REGEX: [&'static str; 10] = [
     "\\d", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
