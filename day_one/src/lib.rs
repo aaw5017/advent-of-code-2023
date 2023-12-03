@@ -40,17 +40,16 @@ pub fn part_one() {
     let regex = Regex::new(PART_ONE_REGEX).expect("Regex::new blew up. Something ain't right.");
 
     for line in lines {
-        if let Ok(content) = line {
-            let matches: Vec<_> = regex.find_iter(&content).map(|m| m.as_str()).collect();
-            if let Some(first) = matches.first() {
-                // last == first if only one element in vector, so unwrapping is safe here
-                let last = matches.last().unwrap();
-                let mut num_str = String::from(*first);
-                num_str.push_str(*last);
+        let content = line.unwrap_or(String::from(""));
+        let matches: Vec<_> = regex.find_iter(&content).map(|m| m.as_str()).collect();
+        if let Some(first) = matches.first() {
+            // last == first if only one element in vector, so unwrapping is safe here
+            let last = matches.last().unwrap();
+            let mut num_str = String::from(*first);
+            num_str.push_str(*last);
 
-                if let Ok(parsed) = num_str.parse::<i32>() {
-                    total += parsed;
-                }
+            if let Ok(parsed) = num_str.parse::<i32>() {
+                total += parsed;
             }
         }
     }
