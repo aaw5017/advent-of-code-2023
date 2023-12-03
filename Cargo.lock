@@ -7,6 +7,7 @@ name = "advent-of-code-2023"
 version = "0.1.0"
 dependencies = [
  "day_one",
+ "day_two",
 ]
 
 [[package]]
@@ -25,6 +26,10 @@ dependencies = [
  "lazy_static",
  "regex",
 ]
+
+[[package]]
+name = "day_two"
+version = "0.1.0"
 
 [[package]]
 name = "lazy_static"
