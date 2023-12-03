@@ -54,6 +54,7 @@ pub fn part_one() {
         }
     }
 
+    assert_eq!(total, 53974);
     println!("Day 1 Part 1: {:?}", total);
 }
 
@@ -107,5 +108,6 @@ pub fn part_two() {
         matching_patterns.clear();
     }
 
+    assert_eq!(total, 52840);
     println!("Day 1 Part 2: {:?}", total);
 }
