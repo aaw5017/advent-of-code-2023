@@ -1,10 +1,12 @@
 use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::path::Path;
 
 const INPUT_PATH: &'static str = "day_three/data/puzzle_input.txt";
 // const INPUT_PATH: &'static str = "day_three/data/test_input.txt";
-const REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>[^\\.\\n])";
+const PART_ONE_REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>[^\\.\\n])";
+const PART_TWO_REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>\\*)";
 
 struct NumberItem {
     end: usize,
@@ -18,11 +20,14 @@ struct SymbolItem {
     line_num: usize,
 }
 
-pub fn part_one() {
-    let file = File::open(INPUT_PATH).expect("Can't read input file. Something ain't right.");
+fn fill_vectors<P>(pattern: &str, filename: P) -> (Vec<NumberItem>, Vec<SymbolItem>)
+where
+    P: AsRef<Path>,
+{
+    let file = File::open(filename).expect("Can't read input file. Something ain't right.");
     let lines = BufReader::new(file).lines();
 
-    let regex = Regex::new(REGEX_PATTERN).expect("Can't create regex. Something ain't right.");
+    let regex = Regex::new(pattern).expect("Can't create regex. Something ain't right.");
     let mut numbers: Vec<NumberItem> = Vec::new();
     let mut symbols: Vec<SymbolItem> = Vec::new();
 
@@ -53,6 +58,12 @@ pub fn part_one() {
         line_num = line_num + 1;
     }
 
+    return (numbers, symbols);
+}
+
+pub fn part_one() {
+    let (numbers, symbols) = fill_vectors(PART_ONE_REGEX_PATTERN, INPUT_PATH);
+
     let mut sum = 0;
     for num in numbers.iter() {
         let line_num = num.line_num;
@@ -81,5 +92,42 @@ pub fn part_one() {
 }
 
 pub fn part_two() {
-    println!("hello from part 2");
+    let (numbers, symbols) = fill_vectors(PART_TWO_REGEX_PATTERN, INPUT_PATH);
+    let mut adjacents: Vec<i32> = Vec::new();
+    let mut sum = 0;
+
+    for sym in symbols.iter() {
+        let line_num = sym.line_num;
+        let line_below = line_num + 1;
+        let line_above = if line_num > 0 { line_num - 1 } else { line_num };
+        let line_range = line_above..=line_below;
+        let range_start = if sym.index > 0 {
+            sym.index - 1
+        } else {
+            sym.index
+        };
+        let target_range = range_start..=(sym.index + 1);
+
+        for num in numbers.iter() {
+            if !line_range.contains(&num.line_num) {
+                continue;
+            }
+            if target_range.contains(&num.start) || target_range.contains(&(num.end - 1)) {
+                adjacents.push(num.value);
+            }
+        }
+
+        if adjacents.len() == 2 {
+            let mut product = 1;
+            for num in adjacents.iter() {
+                product *= num;
+            }
+            sum += product;
+        }
+
+        adjacents.clear();
+    }
+
+    assert_eq!(sum, 84495585);
+    println!("Day 3 Part 2: {}", sum);
 }
