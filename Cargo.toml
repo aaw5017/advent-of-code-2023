@@ -9,3 +9,4 @@ edition = "2021"
 day_one = { path = "./day_one" }
 day_two = { path = "./day_two" }
 day_three = { path = "./day_three" }
+day_four = { path = "./day_four" }
