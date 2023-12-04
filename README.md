@@ -12,7 +12,7 @@
 
 ## Day Three
 
-- [ ] Part One
+- [x] Part One
 - [ ] Part Two
 
 ## Day Four
