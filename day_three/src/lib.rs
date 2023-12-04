@@ -79,3 +79,7 @@ pub fn part_one() {
     assert_eq!(sum, 544664);
     println!("Day 3 Part 1: {}", sum);
 }
+
+pub fn part_two() {
+    println!("hello from part 2");
+}
