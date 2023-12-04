@@ -1,103 +1,81 @@
-use regex::{Captures, Regex};
+use regex::Regex;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Cursor, Lines};
-use std::path::Path;
-use std::slice::SliceIndex;
+use std::io::{BufRead, BufReader};
 
-// const INPUT_PATH: &'static str = "day_three/data/puzzle_input.txt";
-const INPUT_PATH: &'static str = "day_three/data/test_input.txt";
+const INPUT_PATH: &'static str = "day_three/data/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "day_three/data/test_input.txt";
 const REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>[^\\.\\n])";
-const DOT_CHAR: char = '.';
 
-fn is_target_symbol(symbol: &char) -> bool {
-    if symbol == &DOT_CHAR {
-        return false;
-    }
-    if symbol.is_digit(10) {
-        return false;
-    }
-    return true;
+struct NumberItem {
+    end: usize,
+    line_num: usize,
+    start: usize,
+    value: i32,
 }
 
-fn get_last_number_index(arr: &Vec<Vec<char>>, row_num: usize, col_num: usize) -> usize {
-    let current_row = &arr[row_num];
-
-    let mut i = col_num + 1;
-    while let Some(el) = current_row.get(i) {
-        if el.is_digit(10) {
-            i = i + 1;
-            continue;
-        }
-
-        break;
-    }
-    return i;
-}
-
-pub fn part_one_old() {
-    // Initial / naive approach idea
-    // 1. open the file
-    // 2. read 2 lines in to the file at a time
-    // 3. Determine adjacent points within smaller set until whole file has been read
-
-    // further ideas:
-    // 1. if number found, keep walking until you hit a non-number
-    // 2. starting at current index, determine adjacency
-    // 3. walk index-1 for all digits until adjacency is found
-
-    let f = BufReader::new(File::open(INPUT_PATH).unwrap());
-    let arr = f
-        .lines()
-        .map(|l| l.unwrap().chars().collect::<Vec<_>>())
-        .collect::<Vec<_>>();
-
-    // i is row iterator
-    let mut i = 0;
-    let arr_len = arr.len();
-
-    while i < arr_len {
-        let row = &arr[i];
-
-        // js is col iterator
-        let mut j = 0;
-        let row_len = row.len();
-        while j < row_len {
-            let el = arr[i][j];
-            if el.is_digit(10) {
-                let new_j = get_last_number_index(&arr, i, j);
-                let slice = &arr[i][j..new_j];
-                let mut num_str = String::from("");
-                for char in slice.iter() {
-                    num_str.push(*char);
-                }
-
-                println!("{}", num_str);
-                j = new_j;
-                continue;
-            }
-
-            j = j + 1;
-        }
-
-        i = i + 1;
-    }
+struct SymbolItem {
+    index: usize,
+    line_num: usize,
 }
 
 pub fn part_one() {
-    let f = BufReader::new(File::open(INPUT_PATH).unwrap());
-    let mut lines = f.lines();
+    let file = File::open(INPUT_PATH).expect("Can't read input file. Something ain't right.");
+    let lines = BufReader::new(file).lines();
 
-    let mut content_one = String::new();
-    let mut content_two = String::new();
-    while let Some(line_one) = lines.next() {
-        if let Some(line_two) = lines.next() {
-            content_one = line_one.expect("should read line_one");
-            content_two = line_two.expect("should read line_two");
-            println!("{}", content_one);
-            println!("{}", content_two);
+    let regex = Regex::new(REGEX_PATTERN).expect("Can't create regex. Something ain't right.");
+    let mut numbers: Vec<NumberItem> = Vec::new();
+    let mut symbols: Vec<SymbolItem> = Vec::new();
 
-            continue;
+    let mut line_num = 0;
+    for line in lines {
+        let content = line.expect("Can't get content from line. Boo.");
+        let captures = regex.captures_iter(&content).collect::<Vec<_>>();
+        for cap in captures.iter() {
+            if let Some(number_match) = cap.name("number") {
+                let item = NumberItem {
+                    end: number_match.end(),
+                    line_num,
+                    start: number_match.start(),
+                    value: number_match.as_str().parse::<i32>().unwrap_or(0),
+                };
+
+                numbers.push(item);
+            }
+            if let Some(symbol_match) = cap.name("symbol") {
+                let item = SymbolItem {
+                    index: symbol_match.start(),
+                    line_num,
+                };
+                symbols.push(item);
+            }
         }
-        break;
+
+        line_num = line_num + 1;
     }
+
+    let mut sum = 0;
+    for num in numbers.iter() {
+        let line_num = num.line_num;
+        let range_start = if num.start > 0 {
+            num.start - 1
+        } else {
+            num.start
+        };
+        let target_range = range_start..=num.end;
+        let line_below = line_num + 1;
+        let line_above = if line_num > 0 { line_num - 1 } else { line_num };
+        let line_range = line_above..=line_below;
+
+        for sym in symbols.iter() {
+            if !line_range.contains(&sym.line_num) {
+                continue;
+            }
+            if target_range.contains(&sym.index) {
+                sum = sum + num.value;
+            }
+        }
+    }
+
+    assert_eq!(sum, 544664);
+    println!("Day 3 Part 1: {}", sum);
 }
