@@ -1,11 +1,9 @@
 [package]
-name = "advent-of-code-2023"
+name = "day_three"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-day_one = { path = "./day_one" }
-day_two = { path = "./day_two" }
-day_three = { path = "./day_three" }
+regex = "1.10.2"
