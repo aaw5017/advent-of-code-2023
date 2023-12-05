@@ -1,3 +1,4 @@
+use day_five::{self};
 use day_four::{self};
 use day_one::{self};
 use day_three::{self};
@@ -19,4 +20,8 @@ fn main() {
     // Day Four
     day_four::part_one();
     day_four::part_two();
+
+    // Day Five
+    day_five::part_one();
+    day_five::part_two();
 }
