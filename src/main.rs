@@ -18,4 +18,5 @@ fn main() {
 
     // Day Four
     day_four::part_one();
+    day_four::part_two();
 }
