@@ -17,5 +17,5 @@
 
 ## Day Four
 
-- [ ] Part One
+- [x] Part One
 - [ ] Part Two
