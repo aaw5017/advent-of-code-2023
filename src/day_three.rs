@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 
-const INPUT_PATH: &'static str = "day_three/data/puzzle_input.txt";
-// const INPUT_PATH: &'static str = "day_three/data/test_input.txt";
+const INPUT_PATH: &'static str = "data/day_three/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "data/day_three/test_input.txt";
 const PART_ONE_REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>[^\\.\\n])";
 const PART_TWO_REGEX_PATTERN: &'static str = "(?<number>\\d+)|(?<symbol>\\*)";
 

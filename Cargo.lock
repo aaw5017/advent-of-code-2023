@@ -6,11 +6,8 @@ version = 3
 name = "advent-of-code-2023"
 version = "0.1.0"
 dependencies = [
- "day_five",
- "day_four",
- "day_one",
- "day_three",
- "day_two",
+ "lazy_static",
+ "regex",
 ]
 
 [[package]]
@@ -20,36 +17,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b2969dcb958b36655471fc61f7e416fa76033bdd4bfed0678d8fee1e2d07a1f0"
 dependencies = [
  "memchr",
-]
-
-[[package]]
-name = "day_five"
-version = "0.1.0"
-
-[[package]]
-name = "day_four"
-version = "0.1.0"
-
-[[package]]
-name = "day_one"
-version = "0.1.0"
-dependencies = [
- "lazy_static",
- "regex",
-]
-
-[[package]]
-name = "day_three"
-version = "0.1.0"
-dependencies = [
- "regex",
-]
-
-[[package]]
-name = "day_two"
-version = "0.1.0"
-dependencies = [
- "regex",
 ]
 
 [[package]]

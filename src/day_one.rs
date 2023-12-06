@@ -1,4 +1,3 @@
-use lazy_static::lazy_static;
 use regex::{Matches, Regex, RegexSet};
 use std::collections::HashMap;
 use std::fs::File;
@@ -19,8 +18,8 @@ lazy_static! {
     ]);
 }
 
-const INPUT_PATH: &'static str = "day_one/data/puzzle_input.txt";
-// const INPUT_PATH: &'static str = "day_one/data/test_input.txt";
+const INPUT_PATH: &'static str = "data/day_one/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "data/day_one/test_input.txt";
 const PART_ONE_REGEX: &'static str = "\\d";
 const PART_TWO_REGEX: [&'static str; 10] = [
     "\\d", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
