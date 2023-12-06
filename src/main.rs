@@ -1,8 +1,11 @@
-use day_five::{self};
-use day_four::{self};
-use day_one::{self};
-use day_three::{self};
-use day_two::{self};
+#[macro_use]
+extern crate lazy_static;
+
+mod day_five;
+mod day_four;
+mod day_one;
+mod day_three;
+mod day_two;
 
 fn main() {
     // Day One

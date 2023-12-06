@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Lines};
 use std::path::Path;
 
-const INPUT_PATH: &'static str = "day_four/data/puzzle_input.txt";
-// const INPUT_PATH: &'static str = "day_four/data/test_input.txt";
+const INPUT_PATH: &'static str = "data/day_four/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "data/day_four/test_input.txt";
 
 fn get_file_lines<P>(filename: P) -> Lines<BufReader<File>>
 where

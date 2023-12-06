@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Lines};
 use std::path::Path;
 
-const INPUT_PATH: &'static str = "day_two/data/puzzle_input.txt";
-// const INPUT_PATH: &'static str = "day_two/data/test_input.txt";
+const INPUT_PATH: &'static str = "data/day_two/puzzle_input.txt";
+// const INPUT_PATH: &'static str = "data/day_two/test_input.txt";
 const PART_ONE_REGEX: &'static str = "((\\d+) (\\w+))";
 const MAX_RED: i32 = 12;
 const MAX_GREEN: i32 = 13;
