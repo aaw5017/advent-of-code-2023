@@ -27,5 +27,5 @@
 
 ## Day Six
 
-- [ ] Part One
+- [x] Part One
 - [ ] Part Two

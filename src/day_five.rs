@@ -1,19 +1,10 @@
+use crate::util::get_file_lines;
 use std::cmp::{max, min};
 use std::fs::File;
-use std::io::{BufRead, BufReader, Lines};
-use std::path::Path;
+use std::io::{BufReader, Lines};
 
 const INPUT_PATH: &'static str = "data/day_five/puzzle_input.txt";
 // const INPUT_PATH: &'static str = "data/day_five/test_input.txt";
-
-// TODO: move this into its own mod and use it everywhere
-fn get_file_lines<P>(filename: P) -> Lines<BufReader<File>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename).expect("Can't read input file. Something ain't right.");
-    return BufReader::new(file).lines();
-}
 
 #[derive(Debug)]
 struct Mapping {
