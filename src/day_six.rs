@@ -58,7 +58,6 @@ fn get_part_one_races() -> Vec<Race> {
 
 fn get_part_two_race() -> Race {
     let mut lines = get_file_lines(INPUT_PATH);
-    let mut races: Vec<Race> = Vec::new();
 
     let time_line = lines
         .next()
