@@ -23,4 +23,9 @@
 ## Day Five
 
 - [x] Part One
+- [x] Part Two
+
+## Day Six
+
+- [ ] Part One
 - [ ] Part Two
