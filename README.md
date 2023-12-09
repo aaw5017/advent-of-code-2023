@@ -28,4 +28,4 @@
 ## Day Six
 
 - [x] Part One
-- [ ] Part Two
+- [x] Part Two
