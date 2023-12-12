@@ -11,11 +11,6 @@ mod day_two;
 mod util;
 
 fn main() {
-    // Day Seven
-    day_seven::part_one();
-    day_seven::part_two();
-    return;
-
     // Day One
     day_one::part_one();
     day_one::part_two();
@@ -39,4 +34,8 @@ fn main() {
     // Day Six
     day_six::part_one();
     day_six::part_two();
+
+    // Day Seven
+    day_seven::part_one();
+    day_seven::part_two();
 }
