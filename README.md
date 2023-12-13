@@ -29,3 +29,13 @@
 
 - [x] Part One
 - [x] Part Two
+
+## Day Seven
+
+- [x] Part One
+- [x] Part Two
+
+## Day Eight
+
+- [ ] Part One
+- [ ] Part Two

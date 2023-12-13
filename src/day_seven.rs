@@ -4,11 +4,12 @@ use std::{
     collections::{BTreeMap, HashMap},
 };
 
+const JOKER_OR_JACK: char = 'J';
 const INPUT_PATH: &'static str = "data/day_seven/puzzle_input.txt";
 // const INPUT_PATH: &'static str = "data/day_seven/test_input.txt";
 
 lazy_static! {
-    static ref RANKINGS: HashMap<char, u16> = HashMap::from([
+    static ref RANKINGS_SEED: [(char, u16); 12] = [
         ('2', 2),
         ('3', 3),
         ('4', 4),
@@ -18,11 +19,10 @@ lazy_static! {
         ('8', 8),
         ('9', 9),
         ('T', 10),
-        ('J', 11),
         ('Q', 12),
         ('K', 13),
         ('A', 14),
-    ]);
+    ];
 }
 
 #[derive(Debug, Eq)]
@@ -32,11 +32,11 @@ struct Hand {
     card_values: Vec<u16>,
 }
 impl Hand {
-    fn new(bid: usize, hand_str: &str) -> Self {
+    fn new(bid: usize, hand_str: &str, rankings: &HashMap<char, u16>) -> Self {
         let mut map = BTreeMap::new();
         let mut card_values = Vec::new();
         for c in hand_str.chars() {
-            let value = RANKINGS.get(&c).expect("Can't get mapping for card!");
+            let value = rankings.get(&c).expect("Can't get mapping for card!");
             map.entry(value)
                 .and_modify(|count| *count += 1usize)
                 .or_insert(1usize);
@@ -65,6 +65,54 @@ impl Hand {
         };
 
         return Self {
+            bid,
+            rank,
+            card_values,
+        };
+    }
+    fn new_with_jokers(bid: usize, hand_str: &str, rankings: &HashMap<char, u16>) -> Self {
+        let mut map = BTreeMap::new();
+        let mut card_values = Vec::new();
+        let mut num_jokers: usize = 0;
+
+        for c in hand_str.chars() {
+            let value = rankings.get(&c).expect("Can't get mapping for card!");
+            card_values.push(*value);
+
+            if c == JOKER_OR_JACK {
+                num_jokers += 1;
+                continue;
+            }
+
+            map.entry(value)
+                .and_modify(|count| *count += 1usize)
+                .or_insert(1usize);
+        }
+
+        let max_value = map.values().max().unwrap_or(&0) + num_jokers;
+        let key_len = map.keys().len();
+
+        let rank = match max_value {
+            5 => 7,
+            4 => 6,
+            3 => {
+                if key_len == 2 {
+                    5
+                } else {
+                    4
+                }
+            }
+            2 => {
+                if key_len == 3 {
+                    3
+                } else {
+                    2
+                }
+            }
+            _ => 1,
+        };
+
+        return Hand {
             bid,
             rank,
             card_values,
@@ -110,9 +158,10 @@ impl PartialOrd for Hand {
 
 pub fn part_one() {
     let lines = get_file_lines(INPUT_PATH);
+    let mut rankings = HashMap::from(*RANKINGS_SEED);
+    rankings.insert(JOKER_OR_JACK, 11);
 
     let mut all_hand_results: Vec<Hand> = Vec::new();
-
     for line in lines {
         let content = line.expect("File line can't be read");
         let (hand, bid) = content
@@ -125,7 +174,7 @@ pub fn part_one() {
             })
             .expect("Can't split hand line on space");
 
-        all_hand_results.push(Hand::new(bid, hand));
+        all_hand_results.push(Hand::new(bid, hand, &rankings));
     }
 
     let mut sum = 0;
@@ -138,4 +187,33 @@ pub fn part_one() {
     println!("Day 7 Part 1: {}", sum);
 }
 
-pub fn part_two() {}
+pub fn part_two() {
+    let lines = get_file_lines(INPUT_PATH);
+    let mut rankings = HashMap::from(*RANKINGS_SEED);
+    rankings.insert(JOKER_OR_JACK, 1);
+
+    let mut all_hand_results: Vec<Hand> = Vec::new();
+    for line in lines {
+        let content = line.expect("File line can't be read");
+        let (hand, bid) = content
+            .split_once(' ')
+            .map(|h| {
+                (
+                    h.0,
+                    h.1.parse::<usize>().expect("Can't parse bid into usize"),
+                )
+            })
+            .expect("Can't split hand line on space");
+
+        all_hand_results.push(Hand::new_with_jokers(bid, hand, &rankings));
+    }
+
+    let mut sum = 0;
+    all_hand_results.sort();
+    for (i, hand) in all_hand_results.iter().enumerate() {
+        sum += (i + 1) * hand.bid;
+    }
+
+    assert_eq!(sum, 252127335);
+    println!("Day 7 Part 2: {}", sum);
+}
