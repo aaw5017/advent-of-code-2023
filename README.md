@@ -37,5 +37,5 @@
 
 ## Day Eight
 
-- [ ] Part One
+- [x] Part One
 - [ ] Part Two

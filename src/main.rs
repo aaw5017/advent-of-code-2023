@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate lazy_static;
 
+mod day_eight;
 mod day_five;
 mod day_four;
 mod day_one;
@@ -38,4 +39,8 @@ fn main() {
     // Day Seven
     day_seven::part_one();
     day_seven::part_two();
+
+    // Day Eight
+    day_eight::part_one();
+    day_eight::part_two();
 }
