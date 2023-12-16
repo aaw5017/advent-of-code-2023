@@ -23,7 +23,7 @@
 ## Day Five
 
 - [x] Part One
-- [x] Part Two
+- [x] Part Two (used spoilers)
 
 ## Day Six
 
@@ -38,4 +38,14 @@
 ## Day Eight
 
 - [x] Part One
+- [x] Part Two (used spoilers)
+
+## Day Nine
+
+- [ ] Part One
+- [ ] Part Two
+
+## Day Ten
+
+- [ ] Part One
 - [ ] Part Two
